@@ -50,4 +50,4 @@ você deverá renomear as pastas para algo como (preferencialmente evitando acen
 ====
 
 == RELATÓRIO
-![](relatorio.png)
+image::relatorio.png[]
