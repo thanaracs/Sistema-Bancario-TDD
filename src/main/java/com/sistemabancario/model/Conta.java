@@ -92,7 +92,12 @@ public class Conta implements Cadastro {
      * @param movimentacao {@link Movimentacao} a ser adicionada
      */
     public void addMovimentacao(Movimentacao movimentacao) {
-        // TODO: Você precisa implementar este método
+        if(movimentacao.isConfirmada()){
+            if(movimentacao.getTipo() == 'C')
+                saldo += movimentacao.getValor();
+            else if(movimentacao.getTipo() == 'D')
+                saldo -= movimentacao.getValor();
+        }
     }
 
     /**
@@ -102,9 +107,7 @@ public class Conta implements Cadastro {
      * @return
      */
     public double getSaldoTotal() {
-        /* TODO: Você precisa implementar este método. 
-        A linha abaixo deve ser substituída pelo seu código */
-        return 0.0;
+        return saldo + limite;
     }
 
     /**
@@ -124,8 +127,16 @@ public class Conta implements Cadastro {
      *
      * @param valor valor a ser sacado (deve ser um valor positivo)
      */
+
+
+
     public void saque(final double valor) {
-        // TODO: Você precisa implementar este método
+            Movimentacao movimentacao = new Movimentacao(this);
+            movimentacao.setConfirmada(true);
+            movimentacao.setTipo('D');
+            movimentacao.setValor(valor);
+            saldo -= valor;
+            movimentacoes.add(movimentacao);
     }
 
     /**
@@ -136,8 +147,16 @@ public class Conta implements Cadastro {
      *
      * @param valor valor a ser depositado (deve ser um valor positivo)
      */
-    public void depositoDinheiro(final double valor) {
-        // TODO: Você precisa implementar este método
+    public void depositoDinheiro(double valor) {
+            if (valor < 0){
+                throw new IllegalArgumentException("Valor de deposito nao pode ser negativo");
+            }
+            Movimentacao movimentacao = new Movimentacao(this);
+            movimentacao.setConfirmada(true);
+            movimentacao.setTipo('C');
+            movimentacao.setValor(valor);
+            saldo += valor;
+            movimentacoes.add(movimentacao);
     }
 
     /**
@@ -202,3 +221,5 @@ public class Conta implements Cadastro {
         this.limite = limite;
     }
 }
+
+
